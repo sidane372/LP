@@ -2,6 +2,8 @@ from django.contrib import admin
 from . models import *
 # Register your models here.
 admin.site.register(Usuario)
+admin.site.register(Hincha)
+admin.site.register(TipoAdministrador)
 admin.site.register(Administrador)
 admin.site.register(Categoria)
 admin.site.register(Proveedor)

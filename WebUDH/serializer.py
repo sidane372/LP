@@ -5,6 +5,14 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = "__all__"
+class HinchaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hincha
+        fields = "__all__"
+class TipoAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoAdministrador
+        fields = "__all__"
 class AdministradorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administrador

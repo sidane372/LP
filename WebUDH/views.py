@@ -7,6 +7,14 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = models.Usuario.objects.all()
     serializer_class = serializer.UsuarioSerializer
 
+class HinchaViewSet(viewsets.ModelViewSet):
+    queryset = models.Hincha.objects.all()
+    serializer_class = serializer.HinchaSerializer
+
+class TipoAdminViewSet(viewsets.ModelViewSet):
+    queryset = models.TipoAdministrador.objects.all()
+    serializer_class = serializer.TipoAdminSerializer
+
 class AdministradorViewSet(viewsets.ModelViewSet):
     queryset = models.Administrador.objects.all()
     serializer_class = serializer.AdministradorSerializer

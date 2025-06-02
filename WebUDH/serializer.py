@@ -5,10 +5,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = "__all__"
-class HinchaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Hincha
-        fields = "__all__"
+#class HinchaSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Hincha
+#        fields = "__all__"
 class TipoAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoAdministrador
@@ -40,7 +40,9 @@ class ProductoSerializer(serializers.ModelSerializer):
 class CarritoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carrito
-        fields = "__all__"
+        fields = ['id_carrito', 'usuario', 'fecha_creacion','producto','total']
+        def get_total(self, obj):
+            return obj.total
 class CarritoProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carrito_Producto

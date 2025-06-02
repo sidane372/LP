@@ -17,10 +17,10 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nombreCompleto
 #---------------HINCHA        
-class Hincha(Usuario):
-    alias = models.CharField(max_length=40)
-    def __str__(self):
-        return self.alias
+#class Hincha(Usuario):
+#    alias = models.CharField(max_length=40)
+#    def __str__(self):
+#        return self.alias
 #---------------TIPO DE ADMINISTRADOR    
 class TipoAdministrador(models.Model):
     id=models.AutoField(primary_key=True)
@@ -97,11 +97,13 @@ class Carrito(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     producto = models.ManyToManyField(Producto, through='Carrito_Producto')
     fecha_creacion = models.DateField(auto_now=True)
-    monto_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    #monto_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     #estado = models.CharField(choices=Estado, default='Activo')
-
-    def __str__(self):
-        return f"Carrito #{self.id_carrito} de {self.usuario.nombreCompleto}"
+    @property
+    def total(self):
+        return sum(cp.producto.precio * cp.cantidad for cp in self.carrito_producto_set.all())
+    #def __str__(self):
+    #    return f"Carrito #{self.id_carrito} de {self.usuario.nombreCompleto}"
 #---------------CARRITOPRODUCTO        
 # relacion de muchos a muchos pero contiene datos adicionales, se usa through
 class Carrito_Producto(models.Model):

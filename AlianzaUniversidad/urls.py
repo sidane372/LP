@@ -23,7 +23,7 @@ router.register('jugadores', views.JugadorViewSet)
 router.register('partidos', views.PartidoViewSet)
 router.register('historias', views.HistoriaViewSet)
 router.register('post-historias', views.PostHistoriaViewSet)
-router.register('hinchas',views.HinchaViewSet)
+#router.register('hinchas',views.HinchaViewSet)
 router.register('tiposadmin',views.TipoAdminViewSet)
 
 urlpatterns = [

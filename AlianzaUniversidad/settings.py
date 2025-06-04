@@ -23,6 +23,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'WebUDH',
     'rest_framework',
+    'rest_framework.authentication',
+    'rest_framework.authtoken',#generacion y gestion de tokens
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,7 +33,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
+AUTH_USER_MODEL = 'WebUDH.MiUsuario'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -41,8 +51,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'WebUDH.middleware.APIKeyMiddleware'
+    'WebUDH.middleware.APIKeyMiddleware'
 ]
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
     'http://localhost:4200'
@@ -52,7 +63,7 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'X-API-KEY'
 ]
-API_KEY = 'DESARROLLOWEBx'
+API_KEY = 'admin'
 ROOT_URLCONF = 'AlianzaUniversidad.urls'
 
 TEMPLATES = [

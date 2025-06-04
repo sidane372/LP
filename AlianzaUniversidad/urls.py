@@ -25,8 +25,10 @@ router.register('historias', views.HistoriaViewSet)
 router.register('post-historias', views.PostHistoriaViewSet)
 #router.register('hinchas',views.HinchaViewSet)
 router.register('tiposadmin',views.TipoAdminViewSet)
+router.register('miusuarios', views.MiUsuarioViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('login/', views.ObtenerToken.as_view(),name='token-auth'),
 ]

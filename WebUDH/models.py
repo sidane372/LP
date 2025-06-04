@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser,BaseUserManager
 
 # Create your models here.
 Estado =[
@@ -235,3 +236,34 @@ class Post_Historia(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+    #Prueba Unitaria de Seguridad
+class UsuarioManager(BaseUserManager):
+    def create_user(self,username,email,password=None,**extra_fields):
+        #Creamos un usario en base a nombre de usuario, contraseña y correo
+        if not email: #verifica que se proporcione correo
+            raise ValueError('Correo es obligatorio')
+        email = self.normalize_email(email) #convierte en minusculas 
+        user = self.model(username=username,email=email,**extra_fields)
+        user.set_password(password) #encripta la contraseña
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self,username,email,password=None,**extra_fields):
+        #Creamos un superusario en base a nombre de usuario, contraseña y correo
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El campo staff debe ser True')
+        
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El campo superusuario debe ser True')
+        
+        return self.create_user(username,email,password,**extra_fields)
+    
+class MiUsuario(AbstractUser): #distinguir con mi otra tabla usuario
+    objects = UsuarioManager()
+
+    def __str__(self):
+        return self.username

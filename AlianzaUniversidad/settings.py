@@ -63,7 +63,7 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'X-API-KEY'
 ]
-API_KEY = 'admin'
+API_KEY = 'Z49FUBWBuBxJHbsBNfeHO0aC6vzAEl8W'
 ROOT_URLCONF = 'AlianzaUniversidad.urls'
 
 TEMPLATES = [

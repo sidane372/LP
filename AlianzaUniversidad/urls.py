@@ -30,5 +30,5 @@ router.register('miusuarios', views.MiUsuarioViewset)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('login/', views.ObtenerToken.as_view(),name='token-auth'),
+    path('api/login/', views.ObtenerToken.as_view(),name='token-auth'),
 ]

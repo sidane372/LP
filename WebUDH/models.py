@@ -24,7 +24,7 @@ class Usuario(AbstractUser):
 #---------------HINCHA        
 class Hincha(models.Model):
     Usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
-    alias = models.CharField(max_length=40)
+    alias = models.CharField(max_length=40) 
     def __str__(self):
         return self.alias
 #---------------TIPO DE ADMINISTRADOR    
@@ -94,10 +94,10 @@ class Producto(models.Model):
     stock = models.IntegerField()
     imagen_url = models.CharField(max_length=200)
     usuario = models.ManyToManyField(Usuario, through='Reseña') # se agrega para tener mas atributos
-    id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE) # relacion con categoria 1:M
-    id_almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)  # relacion con almacen 1:M
-    id_proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)  # relacion con proveedor 1:M
-    id_promocion = models.ForeignKey(Promocion, on_delete=models.SET_NULL,null=True,blank=True)  # relacion con promocion 1:M
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE) # relacion con categoria 1:M
+    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)  # relacion con almacen 1:M
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)  # relacion con proveedor 1:M
+    promocion = models.ForeignKey(Promocion, on_delete=models.SET_NULL,null=True,blank=True)  # relacion con promocion 1:M
     def __str__(self):
         return self.nombre
 #---------------CARRITOS        
@@ -196,7 +196,7 @@ class Reseña(models.Model):
         return f"Reseña #{self.producto.id_producto} de {self.usuario.nombreCompleto}"
     
 class Jugador(models.Model):
-    id_jugador = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     edad = models.IntegerField()

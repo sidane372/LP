@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.conf import settings
-
+# validar mi clave API key
 class APIKeyMiddleware:
     def __init__(self,get_response):
         self.get_response = get_response

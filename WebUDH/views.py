@@ -11,14 +11,11 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from django.conf import settings
 
+
+#Seguridad
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = models.Usuario.objects.all()
     serializer_class = serializer.UsuarioSerializer
-
-#Seguridad
-class MiUsuarioViewset(viewsets.ModelViewSet):
-    queryset = models.MiUsuario.objects.all()
-    serializer_class = serializer.MiUsuarioSerializer
 
 class LoginView(APIView):
     permission_classes = [AllowAny]

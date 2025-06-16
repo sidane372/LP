@@ -6,16 +6,16 @@ Estado =[
         ('Activo','Activo'),('Inhabilitado','Inhabilitado')
 ]
 #---------------USUARIO
-class Usuario(models.Model):
+class Usuario(AbstractUser):
     #Ya tiene por el Modelo Abstrac User
-    #id_usuario=models.AutoField(primary_key=True)
+    #id=models.AutoField(primary_key=True)
     #nombreCompleto=models.CharField(max_length=70)
     #email=models.EmailField()
     #password=models.CharField(max_length=30)
-    telefono=models.CharField(max_length=9)
-    dni=models.CharField(max_length=8)
-    fechaNac=models.DateField()
-    pass
+    telefono=models.CharField(max_length=9,null=True,blank=True)
+    dni=models.CharField(max_length=8,null=True,blank=True)
+    fechaNac=models.DateField(null=True,blank=True)
+     #pass cuando no se necesita agregar mas campos
     
     def __str__(self):
         return self.username
@@ -23,7 +23,7 @@ class Usuario(models.Model):
 
 #---------------HINCHA        
 class Hincha(models.Model):
-    id = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    Usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
     alias = models.CharField(max_length=40)
     def __str__(self):
         return self.alias

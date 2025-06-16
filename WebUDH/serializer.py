@@ -8,21 +8,21 @@ class UsuarioSerializer(serializers.ModelSerializer):
 #Seguridad 
 class MiUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MiUsuario
+        model = Usuario
         fields = '__all__'
 
     def create(self, validated_data):
-        user = MiUsuario(
+        user = Usuario(
             email = validated_data['email'],
             username = validated_data['username'],
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
-#class HinchaSerializer(serializers.ModelSerializer):
-#    class Meta:
-#        model = Hincha
-#        fields = "__all__"
+class HinchaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hincha
+        fields = "__all__"
 class TipoAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoAdministrador

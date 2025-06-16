@@ -2,8 +2,14 @@ from django.shortcuts import render
 from . import models, serializer
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.authtoken.views import ObtainAuthToken
+#from rest_framework.authtoken.views import ObtainAuthToken
+#from rest_framework.authtoken.models import Token
+#Nuevo Metodo
+from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from django.contrib.auth import authenticate
+from django.conf import settings
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = models.Usuario.objects.all()
@@ -14,6 +20,25 @@ class MiUsuarioViewset(viewsets.ModelViewSet):
     queryset = models.MiUsuario.objects.all()
     serializer_class = serializer.MiUsuarioSerializer
 
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        api_key = request.headers.get('x-api-key')
+        if api_key != settings.API_KEY:
+            return Response({"error": "API Key Inválida"}, status=403)
+
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key})
+        else:
+            return Response({"error": "Credenciales Invalidas"}, status=400)
+
+'''
+AUTENTICACION OTRO METODO
 class ObtenerToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request':request})
@@ -25,10 +50,10 @@ class ObtenerToken(ObtainAuthToken):
             'user_id': user.pk,
             'username': user.username
         })
-
-#class HinchaViewSet(viewsets.ModelViewSet):
-#    queryset = models.Hincha.objects.all()
-#    serializer_class = serializer.HinchaSerializer
+'''
+class HinchaViewSet(viewsets.ModelViewSet):
+    queryset = models.Hincha.objects.all()
+    serializer_class = serializer.HinchaSerializer
 
 class TipoAdminViewSet(viewsets.ModelViewSet):
     queryset = models.TipoAdministrador.objects.all()

@@ -7,21 +7,26 @@ Estado =[
 ]
 #---------------USUARIO
 class Usuario(models.Model):
-    id_usuario=models.AutoField(primary_key=True)
-    nombreCompleto=models.CharField(max_length=70)
-    email=models.EmailField()
+    #Ya tiene por el Modelo Abstrac User
+    #id_usuario=models.AutoField(primary_key=True)
+    #nombreCompleto=models.CharField(max_length=70)
+    #email=models.EmailField()
+    #password=models.CharField(max_length=30)
     telefono=models.CharField(max_length=9)
-    password=models.CharField(max_length=30)
     dni=models.CharField(max_length=8)
     fechaNac=models.DateField()
+    pass
     
     def __str__(self):
-        return self.nombreCompleto
+        return self.username
+
+
 #---------------HINCHA        
-#class Hincha(Usuario):
-#    alias = models.CharField(max_length=40)
-#    def __str__(self):
-#        return self.alias
+class Hincha(models.Model):
+    id = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    alias = models.CharField(max_length=40)
+    def __str__(self):
+        return self.alias
 #---------------TIPO DE ADMINISTRADOR    
 class TipoAdministrador(models.Model):
     id=models.AutoField(primary_key=True)
@@ -30,14 +35,14 @@ class TipoAdministrador(models.Model):
         return self.tipo
  #---------------ADMINISTRADOR       
 class Administrador(models.Model):
-    id_administrador = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
+    id = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
     tipo_admin=models.ForeignKey(TipoAdministrador,on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id_administrador.nombreCompleto}: {self.tipo_admin.tipo}"
+        return f"{self.id.nombreCompleto}: {self.tipo_admin.tipo}"
 #---------------CATEGORIAS   
 class Categoria(models.Model):
-    id_categoria = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
 
@@ -45,7 +50,7 @@ class Categoria(models.Model):
         return self.nombre
 #---------------PROVEEDORES       
 class Proveedor(models.Model):
-    id_proveedor = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombreProveedor = models.CharField(max_length=100)
     razonSocial = models.CharField(max_length=100)
     ruc = models.CharField(max_length=20)
@@ -59,7 +64,7 @@ class Proveedor(models.Model):
         return self.nombreProveedor
 #---------------ALMACENES       
 class Almacen(models.Model):
-    id_almacen = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
     tipo_almacen = models.CharField(max_length=50)
     descripcion = models.TextField()
@@ -69,7 +74,7 @@ class Almacen(models.Model):
         return self.nombre
 #---------------PROMOCIONES       
 class Promocion(models.Model):
-    id_promocion = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=30)
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
@@ -81,7 +86,7 @@ class Promocion(models.Model):
         return self.nombre
 #---------------PRODCUTOS        
 class Producto(models.Model):
-    id_producto = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -98,7 +103,7 @@ class Producto(models.Model):
 #---------------CARRITOS        
 class Carrito(models.Model):
 
-    id_carrito = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     producto = models.ManyToManyField(Producto, through='Carrito_Producto')
     fecha_creacion = models.DateField(auto_now=True)
@@ -126,7 +131,7 @@ class Pedido(models.Model):
     EstadoPedido =[
         ('Activo','Activo'),('En proceso','En proceso'),('Finalizado','Finalizado')
     ]
-    id_pedido = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     carrito = models.OneToOneField(Carrito,on_delete=models.CASCADE)
     fecha_pedido = models.DateField(auto_now=True)
     estado = models.CharField(max_length=40,choices=EstadoPedido, default='Activo')
@@ -135,7 +140,7 @@ class Pedido(models.Model):
         return f"Pedido #{self.id_pedido}"
 
 class Pasarela(models.Model):
-    id_pasarela = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     url_api = models.CharField(max_length=200)
     tipo = models.CharField(max_length=50)
@@ -148,7 +153,7 @@ class Pago(models.Model):
    # EstadoPago =[
     #    ('Validado'),('En Proceso')
      #]
-    id_pago = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     fecha_pago = models.DateField(auto_now=True)
     pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE)
     pasarela = models.ForeignKey(Pasarela, on_delete=models.CASCADE)
@@ -158,7 +163,7 @@ class Pago(models.Model):
         return f"Pago ID#{self.id_pago}"
     
 class Noticia(models.Model):
-    id_noticia = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     administrador = models.ForeignKey(Administrador, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
     contenido = models.TextField()
@@ -169,7 +174,7 @@ class Noticia(models.Model):
         return self.titulo
     
 class Comentario(models.Model):
-    id_comentario = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE)
     descripcion = models.TextField()
@@ -206,7 +211,7 @@ class Jugador(models.Model):
         return self.nombre
     
 class Partido(models.Model):
-    id_partido = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     administrador = models.ForeignKey(Administrador, on_delete=models.CASCADE)  
     nombre_partido = models.CharField(max_length=100) 
     lugar_partido = models.CharField(max_length=50)     
@@ -218,7 +223,7 @@ class Partido(models.Model):
         return self.nombre_partido
 
 class Historia(models.Model):
-    id_historia = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombreHistoria = models.CharField(max_length=100)
     descripcion = models.TextField()
     administrador = models.ForeignKey(Administrador, on_delete=models.CASCADE)
@@ -227,7 +232,7 @@ class Historia(models.Model):
         return self.nombreHistoria
     
 class Post_Historia(models.Model):
-    id_postHistoria = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     historia = models.ForeignKey(Historia, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=100)
     contexto = models.TextField()
@@ -237,6 +242,8 @@ class Post_Historia(models.Model):
     def __str__(self):
         return self.titulo
     
+"""""
+CODIGO POR CONFIRMAR DE PARTE LA AUTENTICACION
     #Prueba Unitaria de Seguridad
 class UsuarioManager(BaseUserManager):
     def create_user(self,username,email,password=None,**extra_fields):
@@ -262,8 +269,11 @@ class UsuarioManager(BaseUserManager):
         
         return self.create_user(username,email,password,**extra_fields)
     
-class MiUsuario(AbstractUser): #distinguir con mi otra tabla usuario
-    objects = UsuarioManager()
 
-    def __str__(self):
-        return self.username
+
+     #distinguir con mi otra tabla usuario
+    #objects = UsuarioManager()
+
+    #def __str__(self):
+    #    return self.username
+"""

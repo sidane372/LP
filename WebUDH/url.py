@@ -8,5 +8,8 @@ router.register('miusuarios',views.MiUsuarioViewset)
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('login/', views.ObtenerToken.as_view(),name='token-auth')
+    #Anterior login
+    #path('login/', views.ObtenerToken.as_view(),name='token-auth'),
+    path('login/', views.LoginView.as_view(), name='login'),
+
 ]

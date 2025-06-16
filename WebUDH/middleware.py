@@ -6,7 +6,7 @@ class APIKeyMiddleware:
         self.get_response = get_response
 
     def __call__(self,request):
-        api_key = request.headers.get('X-API-KEY') 
+        api_key = request.headers.get('x-api-key') 
 
         if api_key and api_key == settings.API_KEY:
             return self.get_response(request)
